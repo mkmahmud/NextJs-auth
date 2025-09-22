@@ -9,10 +9,14 @@ export function middleware(req: NextRequest) {
         pathname.startsWith(path)
     );
 
-    const isAuthenticated = req.cookies.get("auth-token");
+    // Check for all possible NextAuth session cookies
+    const sessionToken =
+        req.cookies.get("authjs.session-token")
+
+    const isAuthenticated = !!sessionToken;
 
     if (isProtectedPath && !isAuthenticated) {
-        return NextResponse.redirect(new URL("/auth/login", req.url));
+        return NextResponse.redirect(new URL("/login", req.url));
     }
 
     return NextResponse.next();
