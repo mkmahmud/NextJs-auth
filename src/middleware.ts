@@ -1,22 +1,19 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "./auth";
 
 const protectedPaths = ["/dashboard", "/profile"];
 
-export async function middleware(req: NextRequest) {
-
-    const session = await auth();
+export function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
-
     const isProtectedPath = protectedPaths.some((path) =>
         pathname.startsWith(path)
     );
 
-    if (isProtectedPath && !session) {
-        return NextResponse.redirect(new URL("/api/auth/signin", req.url));
-    }
+    const isAuthenticated = req.cookies.get("auth-token");
 
+    if (isProtectedPath && !isAuthenticated) {
+        return NextResponse.redirect(new URL("/auth/login", req.url));
+    }
 
     return NextResponse.next();
 }
