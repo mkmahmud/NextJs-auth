@@ -18,7 +18,7 @@ export default function Home() {
       }
 
       {
-        session?.user?.email && <div> <button onClick={() => signOut(session?.user?.email)}>Sign Out</button></div>
+        session?.user?.email && <div> <button onClick={() => signOut()}>Sign Out</button></div>
       }
 
 
