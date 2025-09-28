@@ -16,8 +16,8 @@ export function middleware(req: NextRequest) {
     const isAuthenticated = !!sessionToken;
 
     if (isProtectedPath && !isAuthenticated) {
-        return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+        return NextResponse.redirect(new URL("/auth/login", req.url));
     }
 
     return NextResponse.next();
-}
+}   
